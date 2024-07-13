@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    
+    environment {
+        MAVEN_HOME = tool 'Maven' // Assumes Maven tool is configured in Jenkins
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/your/repository.git' // Replace with your Git repo URL
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh "${MAVEN_HOME}/bin/mvn clean package" // Maven build command
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                sh "${MAVEN_HOME}/bin/mvn test" // Maven test command
+            }
+            post {
+                always {
+                    junit '**/target/surefire-reports/*.xml' // Capture JUnit test results
+                }
+            }
+        }
+        
+        // Add more stages as needed, such as deploying to a server
+        
+        stage('Deploy') {
+            steps {
+                sh 'echo "Deploying the application"' // Example deployment step
+                // Add your deployment script or commands here
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Pipeline succeeded! Deploying artifacts...'
+        }
+        failure {
+            echo 'Pipeline failed! Sending notifications...'
+        }
+    }
+}
