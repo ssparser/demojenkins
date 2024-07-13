@@ -1,27 +1,28 @@
 pipeline {
-    agent any
+    agent any  // Runs the pipeline on any available agent in Jenkins
+    
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/ssparser/demojenkins.git' 
+                git 'https://github.com/ssparser/demojenkins.git'  // Checks out code from the specified Git repository
             }
         }
         
         stage('Build') {
             steps {
-               echo "build" // Maven build command
+               echo "build"  // Placeholder step to indicate the build stage
             }
         }
         
         stage('Test') {
             steps {
-               echo "test"
+               echo "test"  // Placeholder step to indicate the test stage
             }
         }
 
         stage('Deploy') {
             steps {
-               echo "delploy"
+               echo "deploy"  // Placeholder step to indicate the deploy stage
             }
         }
     }
