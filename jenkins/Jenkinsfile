@@ -2,14 +2,12 @@ pipeline {
     agent any
     
     tools {
-        // Specify the name of the Git tool configured in Jenkins
         git 'Default'
     }
     
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the repository using Git
                 git branch: 'main', url: 'https://github.com/ssparser/demojenkins.git'
             }
         }
@@ -17,7 +15,15 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'echo "Build step"'
-                // Add your build commands here
+                 sh 'mvn clean package'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'echo "Running tests"'
+                sh 'mvn test'  
+                junit '**/target/surefire-reports/*.xml'  
             }
         }
         
@@ -26,11 +32,9 @@ pipeline {
     post {
         success {
             echo 'Pipeline succeeded! Deploying artifacts...'
-            // Add post-success actions
         }
         failure {
             echo 'Pipeline failed! Sending notifications...'
-            // Add post-failure actions
         }
     }
 }
