@@ -38,13 +38,4 @@ pipeline {
             }
         }
     }
-    
-    post {
-        success {
-            echo 'Pipeline succeeded! Deploying artifacts...'
-        }
-        failure {
-            echo 'Pipeline failed! Sending notifications...'
-        }
-    }
 }
