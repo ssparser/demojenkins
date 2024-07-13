@@ -1,29 +1,37 @@
 pipeline {
-    agent any  // Runs the pipeline on any available agent in Jenkins
+    agent any
+    
+    tools {
+        // Specify the name of the Git tool configured in Jenkins
+        git 'Default'
+    }
     
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/ssparser/demojenkins.git'  // Checks out code from the specified Git repository
+                // Checkout the repository using Git
+                git branch: 'main', url: 'https://github.com/ssparser/demojenkins.git'
             }
         }
         
         stage('Build') {
             steps {
-               echo "build"  // Placeholder step to indicate the build stage
+                sh 'echo "Build step"'
+                // Add your build commands here
             }
         }
         
-        stage('Test') {
-            steps {
-               echo "test"  // Placeholder step to indicate the test stage
-            }
+    }
+    
+    post {
+        success {
+            echo 'Pipeline succeeded! Deploying artifacts...'
+            // Add post-success actions
         }
-
-        stage('Deploy') {
-            steps {
-               echo "deploy"  // Placeholder step to indicate the deploy stage
-            }
+        failure {
+            echo 'Pipeline failed! Sending notifications...'
+            // Add post-failure actions
         }
     }
 }
+
