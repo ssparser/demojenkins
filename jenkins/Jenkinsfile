@@ -1,9 +1,6 @@
 pipeline {
     agent any
     
-    environment {
-        MAVEN_HOME = tool 'Maven' // Assumes Maven tool is configured in Jenkins
-    }
     
     stages {
         stage('Checkout') {
@@ -14,20 +11,21 @@ pipeline {
         
         stage('Build') {
             steps {
-                sh "${MAVEN_HOME}/bin/mvn clean package" // Maven build command
+                sh 'mvn -B -DskipTests clean package' // Maven build command
             }
         }
         
         stage('Test') {
             steps {
-                sh "${MAVEN_HOME}/bin/mvn test" // Maven test command
+                sh 'mvn test'
             }
             post {
                 always {
-                    junit '**/target/surefire-reports/*.xml' // Capture JUnit test results
+                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
+
         
         // Add more stages as needed, such as deploying to a server
         
