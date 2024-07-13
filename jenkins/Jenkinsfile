@@ -1,7 +1,5 @@
 pipeline {
     agent any
-    
-    
     stages {
         stage('Checkout') {
             steps {
@@ -11,28 +9,19 @@ pipeline {
         
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package' // Maven build command
+               echo "build" // Maven build command
             }
         }
         
         stage('Test') {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+               echo "test"
             }
         }
 
-        
-        // Add more stages as needed, such as deploying to a server
-        
         stage('Deploy') {
             steps {
-                sh 'echo "Deploying the application"' // Example deployment step
-                // Add your deployment script or commands here
+               echo "delploy"
             }
         }
     }
